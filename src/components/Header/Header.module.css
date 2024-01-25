@@ -1,0 +1,94 @@
+.appHeader {
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+}
+
+.logo {
+  margin: 0 4px 0 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: darkred;
+  cursor: pointer;
+}
+
+.searchBar {
+  position: relative;
+  flex: 1;
+  margin: 0 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchBox {
+  max-width: 150px;
+  height: 30px;
+  padding: 8px 30px 8px 10px;
+  border: 0;
+  border-radius: 15px;
+  background-color: rgb(233, 233, 233);
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance : none;  
+  -moz-appearance:none;
+  -o-appearance:none;
+  appearance:none;
+}
+
+input::placeholder {
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.searchBtn {
+  position: absolute;
+  margin: 10px 15px 10px 0;
+  cursor: pointer;
+  width: 35px;
+  height: 30px;
+  border: 0;
+  background-color: transparent;
+  color: gray;
+  padding: 5px;
+}
+
+.signup {
+  margin: 0 4px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: darkgreen;
+}
+
+.login {
+  margin: 0 20px 0 4px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: darkgreen;
+}
+
+.mypage {
+  margin: 0 4px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: darkgreen;
+}
+
+.logout {
+  width: 64px;
+  height: 17px;
+  margin: 0 20px 0 4px;
+  border: 0;
+  background-color: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: gray;
+  flex-shrink: 0;
+}

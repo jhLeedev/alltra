@@ -1,0 +1,212 @@
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0,0,0,0);
+}
+
+.cityCategory {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.city {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.category {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: gray;
+}
+
+.titleBox {
+  max-width: 1040px;
+  margin: 0 auto;
+  height: 80px;
+  border-top: 1px solid rgba(211, 211, 211, 0.6);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 80px;
+}
+
+.profile {
+  max-width: 1040px;
+  margin: 0 auto;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+}
+
+.nickname {
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+.time {
+  font-size: 0.8rem;
+  color: darkgray;
+  flex: 1;
+}
+
+.deleteContent,
+.update {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  font-size: 0.9rem;
+  color: gray;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration-line: underline;
+}
+
+.message {
+  width: 64px;
+  height: 40px;
+  margin: 0;
+  font-size: 0.9rem;
+  border-radius: 16px;
+  background-color: white;
+  border: 1.5px solid darkgreen;
+  color: darkgreen;
+}
+
+.message:hover {
+  background-color: antiquewhite;
+}
+
+.container {
+  max-width: 1072px;
+  margin: 40px auto 0;
+  padding: 0 16px;
+}
+
+.contentBox {
+  margin-bottom: 24px;
+  min-height: 120px;
+}
+
+.content {
+  margin-top: 32px;
+  margin-bottom: 60px;
+  white-space: pre-wrap;
+}
+
+.commentNum {
+  margin-top: 24px;
+  font-weight: 600;
+}
+
+.commentList {
+  padding: 16px 0;
+}
+
+.comment,
+.reply {
+  border-top: 1px solid rgba(211, 211, 211, 0.6);
+  height: 128px;
+}
+
+.reply {
+  margin-left: 40px;
+}
+
+.commentInfo {
+  display: flex;
+  align-items: center;
+}
+
+.commentInfo .time {
+  font-size: 0.8rem;
+}
+
+.comment .content,
+.reply .content {
+  margin: 0 0 16px;
+}
+
+.btnBox {
+  display: flex;
+  align-items: center;
+}
+
+.replyBtn,
+.deleteComment {
+  cursor: pointer;
+  width: 28px;
+  margin: 0 5px 16px 0;
+  display: flex;
+  align-items: center;
+  color: gray;
+}
+
+.deleted {
+  margin-top: 53.33px;
+  color: gray;
+}
+
+.noComment {
+  border-top: 1px solid rgba(211, 211, 211, 0.6);
+  padding: 30px 0;
+  color: gray;
+}
+
+.myCommentBox {
+  margin: 16px 0 40px;
+  border: 1.5px solid darkgray;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.myComment,
+.myComment:focus {
+  border: none;
+}
+
+.myCommentBox button {
+  width: 90px;
+  height: 40px;
+  margin: 10px;
+  background-color: darkgreen;
+  border-radius: 16px;
+  font-size: 0.9rem;
+}
+
+.replyCommentBox {
+  display: flex;
+}
+
+.replyIcon {
+  margin: 16px 0 0 20px;
+  color: gray;
+}
+
+.replyBtnBox {
+  display: flex;
+}
+
+.myCommentBox .cancel {
+  background-color: lightgray;
+}

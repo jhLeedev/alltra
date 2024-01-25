@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.App {
+  text-align: center;
+  position: relative;
+}
+
+.filter {
+  padding: 20px 20px 10px;
+  border-bottom: 1px solid lightgray;
+  text-align: left;
+}
+
+.message {
+  position: fixed;
+  right: 0;
+  bottom: 80px;
+  margin: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: darkred;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: darkred;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

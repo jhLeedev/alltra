@@ -1,0 +1,38 @@
+ul {
+  padding: 0;
+}
+
+.container li {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 10px 25px;
+  border: 2px solid rgb(145, 205, 61);
+  border-radius: 30px;
+  color: rgb(145, 205, 61);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.container .selected {
+  color: darkgreen;
+  outline-color: darkgreen;
+  border: 2px solid darkgreen;
+  background-color: antiquewhite;
+}
+
+.container .all {
+  background-color: rgb(145, 205, 61);
+  color: white;
+}
+
+.container .accompany {
+  background-color: darkgreen;
+  border-color: darkgreen;
+  color: white;
+}
+
+.container .question {
+  background-color: darkred;
+  border-color: darkred;
+  color: white;
+}

@@ -1,0 +1,85 @@
+.container {
+  margin: 30px 0 20px;
+  padding: 0 calc((100% - 270px*4)/2);
+  min-height: 65vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contentBox {
+  display: inline-block;
+  margin: 10px;
+  padding: 20px;
+  width: 250px;
+  height: 300px;
+  border: 1.5px solid darkgreen;
+  border-radius: 15px;
+}
+
+.contentBox p {
+  text-align: left;
+}
+
+.topBox {
+  height: 220px;
+  border-bottom: 1px solid lightgray;
+}
+
+.all, .accompany, .question {
+  background-color: rgb(145, 205, 61);
+  color: white;
+  width: 44px;
+  height: 26px;
+  margin-right: 10px;
+  border-radius: 20px;
+  line-height: 26px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+.accompany {
+  background-color: darkgreen;
+}
+
+.question {
+  background-color: darkred;
+}
+
+.titleBox {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  width: 146px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 5;
+}
+
+.bottomBox {
+  color: gray;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bottomBox p {
+  margin: 15px 0 0;
+}
+
+.noResult {
+  color: gray;
+}

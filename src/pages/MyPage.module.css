@@ -1,0 +1,155 @@
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0,0,0,0);
+}
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+}
+
+.logo {
+  margin: 0 4px 0 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: darkred;
+  cursor: pointer;
+}
+
+.myInfoBox, .myContentBox {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.myInfoBox {
+  margin-top: 60px;
+}
+
+.myInfoTitle {
+  margin: 60px 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.myInfo {
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+}
+
+.title {
+  margin: 80px 0 60px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.emailBox, .nickNameBox {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  margin: 0 80px 0 20px;
+  font-weight: 600;
+}
+
+.email,
+.nickName {
+  margin: 0;
+}
+
+.inputBox {
+  margin: 0 0 0 32px;
+  width: 200px;
+  height: 40px;
+  border-radius: 12px;
+  border-color: gray;
+}
+
+.inputBox:focus {
+  border-color: darkgreen;
+}
+
+.changeBtn, .confirmBtn {
+  margin: 0 0 0 32px;
+  width: 100px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background-color: white;
+  border: 1.5px solid gray;
+  color: gray;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.confirmBtn {
+  width: 64px;
+  margin-left: 20px;
+  background-color: darkgreen;
+  border-color: darkgreen;
+  color: white;
+}
+
+.changeBtn:hover {
+  border-color: darkgreen;
+  color: darkgreen;
+}
+/* 
+.myPostBox {
+} */
+
+.myPost,
+.myComment {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(211, 211, 211, 0.3);
+  padding: 20px;
+}
+
+.linkContainer {
+  margin: 0;
+}
+
+.contentLink,
+.commentLink {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  text-decoration-line: underline;
+}
+
+.noContent {
+  margin: 10px 0;
+}
+
+.myCommentBox {
+  margin-bottom: 40px;
+}
+
+.message {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: darkred;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,53 @@
+.modalOverlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  width: 300px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.modal p {
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+}
+
+.btnContainer {
+  display: flex;
+}
+
+.yesBtn,
+.noBtn {
+  width: 64px;
+  height: 40px;
+  margin-bottom: 28px;
+  font-size: 0.9rem;
+  border-radius: 16px;
+  background-color: white;
+  border: 1.5px solid darkred;
+  color: darkred;
+  display: inline-block;
+}
+
+.noBtn {
+  border-color: gray;
+  color: gray;
+}
+
+.yesBtn:hover {
+  background-color: rgba(139, 0, 0, 0.2);
+}
+
+.noBtn:hover {
+  background-color: rgba(211, 211, 211, 0.5);
+}

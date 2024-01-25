@@ -1,0 +1,78 @@
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin: 0 4px 0 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: darkred;
+}
+
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0,0,0,0);
+}
+
+.filters {
+  margin: 40px 50px;
+}
+
+.categoryTitle {
+  margin-top: 60px;
+  height: 60px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: darkgreen;
+}
+
+.postContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.contentTitle {
+  width: 700px;
+  margin: 40px 0 30px;
+  border: 1.5px solid rgb(145, 205, 61);
+  border-radius: 12px;
+}
+
+textarea {
+  resize: none;
+  padding: 15px;
+  border: 1.5px solid rgb(145, 205, 61);
+  border-radius: 12px;
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance : none;  
+  -moz-appearance:none;
+  -o-appearance:none;
+  appearance:none;
+  font-family: "Inter", sans-serif;
+  white-space: pre-wrap;
+}
+
+textarea:focus {
+  border: 1.5px solid darkred;
+}
+
+.content {
+  width: 700px;
+  margin-top: 30px;
+}
+
+.postContainer button {
+  margin-top: 30px;
+  background-color: darkgreen;
+}

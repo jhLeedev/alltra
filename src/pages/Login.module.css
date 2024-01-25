@@ -1,0 +1,92 @@
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0,0,0,0);
+}
+
+.container {
+  margin: 0 auto;
+  padding: 100px 26px;
+  max-width: 372px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 50px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: darkred;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.loginBox {
+  padding: 20px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid lightgray;
+}
+
+input {
+  width: 300px;
+  height: 50px;
+  margin: 10px;
+  padding: 10px 12px;
+  border: 1.5px solid darkgreen;
+  border-radius: 5px;
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance : none;  
+  -moz-appearance:none;
+  -o-appearance:none;
+  appearance:none;
+}
+
+input:focus {
+  border: 1.5px solid darkred;
+}
+
+button {
+  display: block;
+  width: 300px;
+  height: 50px;
+  margin: 20px auto;
+  cursor: pointer;
+  border: 0;
+  border-radius: 5px;
+  background-color: darkred;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.googleLogin {
+  background-color: white;
+  border: 1.5px solid lightgray;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.googleImg {
+  width: 24px;
+  height: 24px;
+  margin: 0 35px 0 15px;
+}
+
+.signUp {
+  margin-top: 20px;
+  color: darkgreen;
+  font-weight: 600;
+  border-bottom: 1px solid darkgreen;
+}
