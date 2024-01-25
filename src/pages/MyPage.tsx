@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '..';
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { Timestamp, collection, doc, getDocs, orderBy, query, where, writeBatch } from 'firebase/firestore';
+import Pagination from '../components/Pagination/Pagination';
+import { useRecoilState } from 'recoil';
+import { myCommentCurrentPageState, myCommentTotalPagesState, myPostCurrentPageState, myPostTotalPagesState } from '../atoms/userInfoState';
 
 interface Item {
   id: string;
@@ -41,6 +44,10 @@ export default function MyPage() {
   });
   const [list, setList] = useState<Item[]>([]);
   const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [myPostCurrentPage, setMyPostCurrentPage] = useRecoilState(myPostCurrentPageState);
+  const [myCommentCurrentPage, setMyCommentCurrentPage] = useRecoilState(myCommentCurrentPageState);
+  const [myPostTotalPages, setMyPostTotalPages] = useRecoilState(myPostTotalPagesState);
+  const [myCommentTotalPages, setMyCommentTotalPages] = useRecoilState(myCommentTotalPagesState);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -65,7 +72,7 @@ export default function MyPage() {
   useEffect(() => {
     getContents();
     getComments();
-  }, []);
+  }, [myPostCurrentPage, myCommentCurrentPage]);
 
   const navigate = useNavigate();
   const handleReload = () => {
@@ -127,7 +134,16 @@ export default function MyPage() {
         const createdDate = data.createAt.toDate();
         allContents.push({...data, id: doc.id, date: createdDate });
       });
-      setList(allContents);
+
+      const newContents: Item[] = [];
+      for (let i = (myPostCurrentPage - 1) * 5; i < Math.min(myPostCurrentPage * 5, allContents.length); i++) {
+        newContents.push(allContents[i]);
+      };
+      setList(newContents);
+
+      const totalItems = Math.max((await getDocs(q)).size, 1);
+      const newTotalPages = Math.ceil(totalItems / 5);
+      setMyPostTotalPages(newTotalPages);
     } catch (error: any) {
       alert(error.message);
       console.log(error.message);
@@ -148,7 +164,16 @@ export default function MyPage() {
         const createdDate = data.createAt.toDate();
         allComments.push({...data, id: doc.id, date: createdDate });
       });
-      setCommentList(allComments);
+
+      const newComments: Comment[] = [];
+      for (let i = (myCommentCurrentPage - 1) * 5; i < Math.min(myCommentCurrentPage * 5, allComments.length); i++) {
+        newComments.push(allComments[i]);
+      };
+      setCommentList(newComments);
+
+      const totalItems = Math.max((await getDocs(q)).size, 1);
+      const newTotalPages = Math.ceil(totalItems / 5);
+      setMyCommentTotalPages(newTotalPages);
     } catch (error: any) {
       alert(error.message);
       console.log(error.message);
@@ -211,6 +236,7 @@ export default function MyPage() {
               <p className={styles.noContent}>작성한 글이 없습니다.</p>
             )}
           </div>
+          <Pagination type='myPostPagination' />
         </div>
         <div className={styles.myCommentBox}>
           <p className={styles.title}>내 댓글</p>
@@ -227,6 +253,7 @@ export default function MyPage() {
               <p className={styles.noContent}>작성한 댓글이 없습니다.</p>
             )}
           </div>
+          <Pagination type='myCommentPagination' />
         </div>
       </div>
       <Link to='/message' className={styles.message}>

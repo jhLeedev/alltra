@@ -20,7 +20,7 @@ export default function Layout() {
       <List
         itemsPerPage={8}
       />
-      <Pagination />
+      <Pagination type='listPagination' />
       {isLoggedIn ? (
         <>
           <Link to='/message' className={styles.message}>

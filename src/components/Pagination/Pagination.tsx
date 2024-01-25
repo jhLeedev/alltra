@@ -1,23 +1,49 @@
 import styles from './Pagination.module.css';
 import { useRecoilState } from 'recoil';
-import { currentPageState, totalPagesState } from '../../atoms/userInfoState';
+import { currentPageState, myCommentCurrentPageState, myCommentTotalPagesState, myPostCurrentPageState, myPostTotalPagesState, totalPagesState } from '../../atoms/userInfoState';
 import React from 'react';
 
-export default function Pagination() {
+export default function Pagination({ type }: {type: string}) {
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+  const [myPostCurrentPage, setMyPostCurrentPage] = useRecoilState(myPostCurrentPageState);
+  const [myCommentCurrentPage, setMyCommentCurrentPage] = useRecoilState(myCommentCurrentPageState);
   const [totalPages, setTotalPages] = useRecoilState(totalPagesState);
+  const [myPostTotalPages, setMyPostTotalPages] = useRecoilState(myPostTotalPagesState);
+  const [myCommentTotalPages, setMyCommentTotalPages] = useRecoilState(myCommentTotalPagesState);
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
+    if (type === 'listPagination') {
+      setCurrentPage(newPage);
+    } else if (type === 'myPostPagination') {
+      setMyPostCurrentPage(newPage);
+    } else {
+      setMyCommentCurrentPage(newPage);
+    }
   };
 
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const num = Math.ceil(currentPage / 5) - 1;
-    const start = 5 * num + 1;
-    const end = Math.min(start + 4, totalPages);
-    for (let i = start; i <= end; i++) {
-      pageNumbers.push(i);
+    if (type === 'listPagination') {
+      const num = Math.ceil(currentPage / 5) - 1;
+      const start = 5 * num + 1;
+      const end = Math.min(start + 4, totalPages);
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+    } else if (type === 'myPostPagination') {
+      const num = Math.ceil(myPostCurrentPage / 5) - 1;
+      const start = 5 * num + 1;
+      const end = Math.min(start + 4, myPostTotalPages);
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      const num = Math.ceil(myCommentCurrentPage / 5) - 1;
+      const start = 5 * num + 1;
+      const end = Math.min(start + 4, myCommentTotalPages);
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
     }
     return pageNumbers;
   };
@@ -39,12 +65,18 @@ export default function Pagination() {
         <>
           {getPageNumbers().map((page) => (
             <React.Fragment key={page}>
-              {(page === currentPage) ? (
-                <button onClick={() => handlePageChange(page)} className={styles.currentPage}>
+              {(type === 'listPagination') && (
+                <button onClick={() => handlePageChange(page)} className={(page === currentPage) ? styles.currentPage : ''}>
                   {page}
                 </button>
-              ) : (
-                <button onClick={() => handlePageChange(page)}>
+              )}
+              {(type === 'myPostPagination') && (
+                <button onClick={() => handlePageChange(page)} className={(page === myPostCurrentPage) ? styles.currentPage : ''}>
+                  {page}
+                </button>
+              )}
+              {(type === 'myCommentPagination') && (
+                <button onClick={() => handlePageChange(page)} className={(page === myCommentCurrentPage) ? styles.currentPage : ''}>
                   {page}
                 </button>
               )}

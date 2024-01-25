@@ -18,11 +18,11 @@ interface Item {
   date: Date;
 }
 
-interface PaginationProps {
+interface ListProps {
   itemsPerPage: number;
 }
 
-export default function List(props: PaginationProps) {
+export default function List(props: ListProps) {
   const [list, setList] = useState<Item[]>([]);
   const [totalPages, setTotalPages] = useRecoilState(totalPagesState);
   const [selectedCity, setSelectedCity] = useRecoilState(selectedCityState);
@@ -131,7 +131,6 @@ export default function List(props: PaginationProps) {
               </div>
               <div className={styles.bottomBox}>
                 <p className={styles.time}>{getTimeDifference(content.date)}</p>
-                {/* <p className={styles.comment}>댓글 {commentCounts[content.id]}</p> */}
                 <p className={styles.comment}>댓글 {commentCounts[content.id]}</p>
               </div>
             </Link>

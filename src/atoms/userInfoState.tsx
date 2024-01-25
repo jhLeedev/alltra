@@ -35,8 +35,28 @@ export const currentPageState = atom({
   default: 1
 });
 
+export const myPostCurrentPageState = atom({
+  key: "myPostCurrentPageState",
+  default: 1
+});
+
+export const myCommentCurrentPageState = atom({
+  key: "myCommentCurrentPageState",
+  default: 1
+});
+
 export const totalPagesState = atom({
   key: "totalPagesState",
+  default: 1
+});
+
+export const myPostTotalPagesState = atom({
+  key: "myPostTotalPagesState",
+  default: 1
+});
+
+export const myCommentTotalPagesState = atom({
+  key: "myCommentTotalPagesState",
   default: 1
 });
 
