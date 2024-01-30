@@ -3,10 +3,10 @@ import Header from '../components/Header/Header';
 import { useEffect, useRef, useState } from 'react';
 import { getDoc, doc, addDoc, collection, Timestamp, getDocs, query, where, orderBy, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '..';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getTimeDifference } from '../components/List/List';
 import { useRecoilState } from 'recoil';
-import { isLoggedInState, isModalOpenState } from '../atoms/userInfoState';
+import { chatToState, isLoggedInState, isModalOpenState } from '../atoms/userInfoState';
 import DeleteModal from '../components/DeleteModal/DeleteModal';
 
 interface Item {
@@ -47,6 +47,7 @@ export default function Content() {
   const [isOpen, setIsOpen] = useRecoilState(isModalOpenState);
   const [docId, setDocId] = useState('');
   const [collectionType, setCollectionType] = useState('');
+  const [chatTo, setChatTo] = useRecoilState(chatToState);
   const [content, setContent] = useState<Item>({
     id: '',
     user: '',
@@ -146,6 +147,17 @@ export default function Content() {
     }
   };
 
+  const navigate = useNavigate();
+  const handleChat = (userId: string, nickname: string): React.MouseEventHandler<HTMLButtonElement> => {
+    return (event) => {
+      setChatTo({
+        userId: userId,
+        nickname: nickname
+      });
+      navigate('/chat');
+    }
+  };
+
   const postComment =async (e: any) => {
     e.preventDefault();
 
@@ -212,7 +224,7 @@ export default function Content() {
             <div onClick={handleDelete(content.id, 'alltraCollection')} className={styles.deleteContent}>삭제</div>
           </>
         ) : (
-          <button type='button' className={styles.message}>메세지</button>
+          <button type='button' onClick={handleChat(content.user, content.nickName)} className={styles.message}>메세지</button>
         )}
       </div>
       <div className={styles.container}>

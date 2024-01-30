@@ -1,0 +1,102 @@
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0,0,0,0);
+}
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+}
+
+.logo {
+  margin: 0 4px 0 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: darkred;
+  cursor: pointer;
+}
+
+.profile,
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+}
+
+.nickname {
+  margin: 24px 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.container {
+  min-height: 72vh;
+  padding: 40px 20px;
+}
+
+.messageBox,
+.myMessageBox {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.myMessageBox {
+  justify-content: flex-end;
+}
+
+.message,
+.myMessage {
+  display: inline-block;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: rgba(211, 211, 211, 0.5);
+}
+
+.myMessage {
+  background-color: darkgreen;
+  color: white;
+}
+
+.time {
+  margin: 0 16px;
+  font-size: 0.8rem;
+  color: darkgray;
+}
+
+.myChatBox {
+  max-width: 1040px;
+  margin: 20px auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid darkgray;
+  border-radius: 12px;
+}
+
+.myChat,
+.myChat:focus {
+  border: none;
+}
+
+.sendBtn {
+  width: 64px;
+  height: 40px;
+  margin: 10px;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  border-radius: 12px;
+}

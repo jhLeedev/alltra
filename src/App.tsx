@@ -7,6 +7,7 @@ import Message from './pages/Message';
 import Content from './pages/Content';
 import Edit from './pages/Edit';
 import MyPage from './pages/MyPage';
+import Chat from './pages/Chat';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path='/post/:postId' element={<Content />} />
         <Route path='/edit/:postId' element={<Edit />} />
         <Route path='/message' element={<Message />} />
+        <Route path='/chat' element={<Chat />} />
       </Routes>
     </BrowserRouter>
   );

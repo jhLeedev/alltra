@@ -69,3 +69,11 @@ export const isModalOpenState = atom({
   key: "isModalOpenState",
   default: false
 });
+
+export const chatToState = atom({
+  key: "chatToState",
+  default: {
+    userId: "",
+    nickname: ""
+  }
+});
