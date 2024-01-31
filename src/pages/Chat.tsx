@@ -2,19 +2,23 @@ import styles from './Chat.module.css';
 import { useRecoilState } from 'recoil';
 import { chatToState } from '../atoms/userInfoState';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Timestamp, addDoc, collection } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { Timestamp, addDoc, collection, doc, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore';
 import { auth, db } from '..';
+
+interface Chat {
+  id: string;
+  uid: string;
+  nickname: string;
+  content: string;
+  date: Date;
+  createAt: Timestamp;
+}
 
 export default function Chat() {
   const [chatTo, setChatTo] = useRecoilState(chatToState);
   const [chat, setChat] = useState('');
-
-  const navigate = useNavigate();
-  const handleReload = () => {
-    navigate('/');
-    window.location.reload();
-  };
+  const [messageList, setMessageList] = useState<Chat[]>([]);
 
   const generateChatId = (user1: string) => {
     const user2 = auth.currentUser?.uid;
@@ -22,7 +26,40 @@ export default function Chat() {
     const chatId = `${sortedId[0]}_${sortedId[1]}`;
     return chatId;
   };
+  const chatId = generateChatId(chatTo.userId);
+  
+  const getMessages = () => {
+    const messagesRef = collection(db, 'chats', chatId, 'messages');
+    const unsubscribe = onSnapshot(
+      query(messagesRef, orderBy('createAt', 'asc')),
+      (querySnapshot) => {
+      let allMessages: Chat[] = [];
 
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as Chat;
+        const createdDate = data.createAt.toDate();
+        allMessages.push({...data, id: doc.id, date: createdDate});
+      });
+
+      setMessageList(allMessages);
+    });
+
+    return () => unsubscribe();
+  };
+
+  useEffect(() => {
+    const unsubscribe = getMessages();
+
+    return () => unsubscribe();
+  }, []);
+
+  const navigate = useNavigate();
+  const handleReload = () => {
+    navigate('/');
+    window.location.reload();
+  };
+
+  
   const sendMessage = async (e: any) => {
     e.preventDefault();
 
@@ -30,18 +67,30 @@ export default function Chat() {
       return alert('메세지를 입력해주세요');
     }
 
-    const chatId = generateChatId(chatTo.userId);
-
     try {
-      await addDoc(collection(db, 'chats', chatId, 'messages'), {
-        sender: auth.currentUser?.uid,
+      if (messageList.length === 0) {
+        await setDoc(doc(db, 'chats', chatId), {
+          participants: [auth.currentUser?.uid, chatTo.userId],
+        });
+      };
+      
+      await addDoc(collection(doc(db, 'chats', chatId), 'messages'), {
+        uid: auth.currentUser?.uid,
+        nickname: auth.currentUser?.displayName,
         content: chat,
         createAt: Timestamp.now()
       });
       setChat('');
+      getMessages();
     } catch (error: any) {
       alert(error.message);
     }
+  };
+
+  const getTime = (createdDate: Date) => {
+    const hour = createdDate.getHours() > 10 ? String(createdDate.getHours()) : `0${createdDate.getHours()}`;
+    const minute = createdDate.getMinutes() > 10 ? String(createdDate.getMinutes()) : `0${createdDate.getMinutes()}`;
+    return `${hour}:${minute}`;
   };
 
   return (
@@ -55,22 +104,29 @@ export default function Chat() {
         <p className={styles.nickname}>{chatTo.nickname}</p>
       </div>
       <div className={styles.container}>
-        <div className={styles.messageBox}>
-          <div className={styles.message}>상대메세지</div>
-          <p className={styles.time}>시간</p>
-        </div>
-        <div className={styles.myMessageBox}>
-          <p className={styles.time}>시간</p>
-          <div className={styles.myMessage}>내메세지</div>
-        </div>
-        <div className={styles.myMessageBox}>
-          <p className={styles.time}>시간</p>
-          <div className={styles.myMessage}>내메세지</div>
-        </div>
-        <div className={styles.messageBox}>
-          <div className={styles.message}>상대메세지</div>
-          <p className={styles.time}>시간</p>
-        </div>
+        {(messageList.length > 0) ? (
+          <>
+            {messageList.map((doc) => (
+              <>
+                {(doc.uid === auth.currentUser?.uid) ? (
+                  <div className={styles.myMessageBox}>
+                    <p className={styles.time}>{getTime(doc.date)}</p>
+                    <div className={styles.myMessage}>{doc.content}</div>
+                  </div>
+                ) : (
+                  <div className={styles.messageBox}>
+                    <div className={styles.message}>{doc.content}</div>
+                    <p className={styles.time}>{getTime(doc.date)}</p>
+                  </div>
+                )}
+              </>
+            ))}
+          </>
+        ) : (
+          <div className={styles.noMessage}>
+            <p>불러올 메세지가 없습니다.</p>
+          </div>
+        )}
       </div>
       <div className={styles.inputBox}>
         <form onSubmit={sendMessage} className={styles.myChatBox}>
