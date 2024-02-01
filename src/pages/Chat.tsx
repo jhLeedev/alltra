@@ -2,7 +2,7 @@ import styles from './Chat.module.css';
 import { useRecoilState } from 'recoil';
 import { chatToState } from '../atoms/userInfoState';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Timestamp, addDoc, collection, doc, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore';
 import { auth, db } from '..';
 
@@ -19,6 +19,7 @@ export default function Chat() {
   const [chatTo, setChatTo] = useRecoilState(chatToState);
   const [chat, setChat] = useState('');
   const [messageList, setMessageList] = useState<Chat[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const generateChatId = (user1: string) => {
     const user2 = auth.currentUser?.uid;
@@ -49,9 +50,13 @@ export default function Chat() {
 
   useEffect(() => {
     const unsubscribe = getMessages();
-
+    
     return () => unsubscribe();
   }, []);
+  
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView();
+  }, [messageList]);
 
   const navigate = useNavigate();
   const handleReload = () => {
@@ -106,21 +111,36 @@ export default function Chat() {
       <div className={styles.container}>
         {(messageList.length > 0) ? (
           <>
-            {messageList.map((doc) => (
-              <>
-                {(doc.uid === auth.currentUser?.uid) ? (
-                  <div className={styles.myMessageBox}>
-                    <p className={styles.time}>{getTime(doc.date)}</p>
-                    <div className={styles.myMessage}>{doc.content}</div>
-                  </div>
-                ) : (
-                  <div className={styles.messageBox}>
-                    <div className={styles.message}>{doc.content}</div>
-                    <p className={styles.time}>{getTime(doc.date)}</p>
-                  </div>
-                )}
-              </>
-            ))}
+            {messageList.map((doc, index) => {
+              let displayDate = false;
+              let today = '';
+              if (index === 0 || doc.date.getDate() !== messageList[index - 1].date.getDate()) {
+                displayDate = true;
+                today = `${doc.date.getFullYear()}/${doc.date.getMonth() + 1}/${doc.date.getDate()}`;
+              }
+
+              return (
+                <>
+                  {displayDate ? (
+                    <div className={styles.dateBox}>
+                      <p className={styles.date}>{today}</p>
+                    </div>
+                  ) : <></>}
+                  {(doc.uid === auth.currentUser?.uid) ? (
+                    <div className={styles.myMessageBox}>
+                      <p className={styles.time}>{getTime(doc.date)}</p>
+                      <div className={styles.myMessage}>{doc.content}</div>
+                    </div>
+                  ) : (
+                    <div className={styles.messageBox}>
+                      <div className={styles.message}>{doc.content}</div>
+                      <p className={styles.time}>{getTime(doc.date)}</p>
+                    </div>
+                  )}
+                </>
+              )
+            })}
+            <div ref={scrollRef} className={styles.scrollRef}></div>
           </>
         ) : (
           <div className={styles.noMessage}>

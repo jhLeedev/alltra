@@ -43,8 +43,15 @@
 }
 
 .container {
-  min-height: 72vh;
+  height: 72vh;
   padding: 40px 20px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .messageBox,
@@ -56,11 +63,18 @@
 
 .myMessageBox {
   justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.dateBox {
+  color: gray;
+  text-align: center;
 }
 
 .message,
 .myMessage {
   display: inline-block;
+  max-width: 600px;
   padding: 12px;
   border-radius: 12px;
   background-color: rgba(211, 211, 211, 0.5);
