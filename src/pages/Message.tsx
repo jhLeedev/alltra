@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './Message.module.css';
-import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { Timestamp, collection, getDocs, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '..';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -25,8 +25,6 @@ interface Chat {
   recentMessage: Message;
 }
 
-type CallbackFuction = (message: Message) => void;
-
 export default function Message() {
   const [chatList, setChatList] = useState<Chat[]>([]);
 
@@ -36,45 +34,39 @@ export default function Message() {
     window.location.reload();
   };
 
+  const getChats = async () => {
+    const chatsRef = collection(db, 'chats');
+    const unsubscribeChats = onSnapshot(
+      query(chatsRef, where('participants', 'array-contains', auth.currentUser?.uid)),
+      (querySnapshot) => {
+        let allChats: Chat[] = [];
 
-  const getRecentMessage = (chatId: string, callback: CallbackFuction) => {
-    const recentMessageRef = collection(db, 'chats', chatId, 'messages');
-    const recentMessageUnsubscribe = onSnapshot(
-      query(recentMessageRef,
-      orderBy('createAt', 'desc'),
-      limit(1)),
-      (messageSnapshot) => {
-        const recentMessageData = messageSnapshot.docs[0].data() as Message;
-        const recentMessage = { ...recentMessageData, id: messageSnapshot.docs[0].id };
-        callback(recentMessage);
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as Chat;
+          const recentMessageRef = collection(db, 'chats', doc.id, 'messages');
+          const unsubscribeMessages = onSnapshot(
+            query(recentMessageRef, orderBy('createAt', 'desc'), limit(1)),
+            (messageSnapshot) => {
+              const recentMessageData = messageSnapshot.docs[0].data() as Message;
+              const recentMessage = { ...recentMessageData, id: messageSnapshot.docs[0].id };
+    
+              const existingChatIndex = allChats.findIndex((chat) => chat.id === doc.id);
+              if (existingChatIndex !== -1) {
+                allChats[existingChatIndex] = { ...data, id: doc.id, recentMessage: recentMessage };
+              } else {
+                allChats.push({ ...data, id: doc.id, recentMessage: recentMessage });
+              }
+    
+              setChatList([...allChats]);
+            }
+          );
+        });
       }
     );
 
-    return () => recentMessageUnsubscribe;
-  };
-
-  const getChats = () => {
-    const chatsRef = collection(db, 'chats');
-    const unsubscribe = onSnapshot(
-      query(chatsRef, where('participants', 'array-contains', auth.currentUser?.uid)),
-      (querySnapshot) => {
-      let allChats: Chat[] = [];
-
-      querySnapshot.forEach(async (doc) => {
-        const data = doc.data() as Chat;
-        const recentMessage = await new Promise<Message>((resolve) => {
-          getRecentMessage(doc.id, (message) => {
-            resolve(message);
-          });
-        });
-        allChats.push({...data, id: doc.id, recentMessage: recentMessage});
-        setChatList(allChats);
-      });
-
-      console.log(allChats);
-    });
-
-    return () => unsubscribe();
+    return () => {
+      unsubscribeChats();
+    };
   };
 
   useEffect(() => {

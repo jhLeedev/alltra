@@ -54,6 +54,7 @@
   margin-left: 20px;
   font-size: 0.8rem;
   color: darkgray;
+  flex-shrink: 0;
 }
 
 .content {
