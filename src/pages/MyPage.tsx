@@ -96,6 +96,7 @@ export default function MyPage() {
         displayName: nickName
       });
       setShowInput(false);
+      const prevNickname = profile.nickName;
       setProfile(prevState => ({
         ...prevState,
         nickName: nickName
@@ -105,6 +106,8 @@ export default function MyPage() {
       const userPostSnapshot = await getDocs(userPostQuery);
       const userCommentQuery = query(collection(db, 'alltraComment'), where('user', '==', profile.uid));
       const userCommentSnapshot = await getDocs(userCommentQuery);
+      const userChatQuery = query(collection(db, 'chats'), where('participants', 'array-contains', profile.uid));
+      const userChatSnapshot = await getDocs(userChatQuery);
       const batch = writeBatch(db);
       userPostSnapshot.forEach((post) => {
         const postRef = doc(db, 'alltraCollection', post.id);
@@ -113,6 +116,17 @@ export default function MyPage() {
       userCommentSnapshot.forEach((comment) => {
         const commentRef = doc(db, 'alltraComment', comment.id);
         batch.update(commentRef, { nickName: nickName });
+      });
+      userChatSnapshot.forEach((chat) => {
+        const chatRef = doc(db, 'chats', chat.id);
+        let newNicknames = [];
+        if (chat.data().nicknames[0] === prevNickname) {
+          newNicknames.push(chat.data().nicknames[1]);
+        } else {
+          newNicknames.push(chat.data().nicknames[0]);
+        }
+        newNicknames.push(nickName);
+        batch.update(chatRef, { nickNames: newNicknames });
       });
       await batch.commit();
 

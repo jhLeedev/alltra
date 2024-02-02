@@ -3,6 +3,15 @@ import styles from './Message.module.css';
 import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '..';
 import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+
+interface Message {
+  id: string;
+  content: string;
+  createAt: Timestamp;
+  nickname: string;
+  uid: string;
+}
 
 interface Chat {
   id: string;
@@ -11,7 +20,12 @@ interface Chat {
   content: string;
   date: Date;
   createAt: Timestamp;
+  participants: Array<string>;
+  nicknames: Array<string>;
+  recentMessage: Message;
 }
+
+type CallbackFuction = (message: Message) => void;
 
 export default function Message() {
   const [chatList, setChatList] = useState<Chat[]>([]);
@@ -22,20 +36,21 @@ export default function Message() {
     window.location.reload();
   };
 
-  const getRecentMessage = (chatId: string, callback: CallableFunction) => {
+
+  const getRecentMessage = (chatId: string, callback: CallbackFuction) => {
     const recentMessageRef = collection(db, 'chats', chatId, 'messages');
     const recentMessageUnsubscribe = onSnapshot(
       query(recentMessageRef,
       orderBy('createAt', 'desc'),
       limit(1)),
       (messageSnapshot) => {
-        const recentMessageData = messageSnapshot.docs[0].data();
-        const recentMessage = { id: messageSnapshot.docs[0].id, ...recentMessageData };
+        const recentMessageData = messageSnapshot.docs[0].data() as Message;
+        const recentMessage = { ...recentMessageData, id: messageSnapshot.docs[0].id };
         callback(recentMessage);
       }
     );
 
-    return recentMessageUnsubscribe;
+    return () => recentMessageUnsubscribe;
   };
 
   const getChats = () => {
@@ -45,26 +60,60 @@ export default function Message() {
       (querySnapshot) => {
       let allChats: Chat[] = [];
 
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(async (doc) => {
         const data = doc.data() as Chat;
-        getRecentMessage(doc.id, (recentMessage: any) => {
-          console.log(recentMessage);
+        const recentMessage = await new Promise<Message>((resolve) => {
+          getRecentMessage(doc.id, (message) => {
+            resolve(message);
+          });
         });
-        allChats.push({...data, id: doc.id});
+        allChats.push({...data, id: doc.id, recentMessage: recentMessage});
+        setChatList(allChats);
       });
 
-      setChatList(allChats);
-      console.log(chatList);
+      console.log(allChats);
     });
 
     return () => unsubscribe();
   };
 
   useEffect(() => {
-    const unsubscribe = getChats();
-    console.log('dd');
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getChats();
+      }
+    });
+
     return () => unsubscribe();
   }, []);
+
+  const getNickname = (nicknames: Array<string>) => {
+    let user = '';
+    if (nicknames[0] === auth.currentUser?.displayName) {
+      user = nicknames[1];
+    } else {
+      user = nicknames[0];
+    }
+    return user;
+  };
+
+  const getTime = (createAt: Timestamp) => {
+    const createdDate = createAt.toDate();
+    const today = new Date();
+    const hour = createdDate.getHours() > 10 ? String(createdDate.getHours()) : `0${createdDate.getHours()}`;
+    const minute = createdDate.getMinutes() > 10 ? String(createdDate.getMinutes()) : `0${createdDate.getMinutes()}`;
+    let time = `${hour}:${minute}`;
+    if (today.toDateString() !== createdDate.toDateString()) {
+      const month = createdDate.getMonth() + 1;
+      const date = createdDate.getDate();
+      time = `${month}/${date} ${hour}:${minute}`;
+      if (today.getFullYear() !== createdDate.getFullYear()) {
+        const year = createdDate.getFullYear();
+        time = `${year}/${month}/${date} ${hour}:${minute}`;
+      }
+    }
+    return time;
+  };
 
   return (
     <>
@@ -75,8 +124,24 @@ export default function Message() {
       </header>
       <p className={styles.title}>메세지 목록</p>
       <div className={styles.container}>
-        <div className={styles.messageBox}>
-          <div className={styles.messageInfo}>
+        {(true) ? (
+          <>
+            {chatList.map((doc) => (
+              <div className={styles.messageBox}>
+                <p className={styles.nickName}>{getNickname(doc.nicknames)}</p>
+                <div className={styles.message}>
+                  <p className={styles.content}>{doc.recentMessage.content}</p>
+                  <p className={styles.time}>{getTime(doc.recentMessage.createAt)}</p>
+                </div>
+              </div>
+              ))}
+            </>
+          ) : (
+            <div>
+              <p className={styles.noChat}>메세지 목록이 비었습니다.</p>
+            </div>
+          )}
+          {/* <div className={styles.messageInfo}>
             <p className={styles.nickName}>닉네임</p>
             <div className={styles.new}>
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="darkgreen" className="bi bi-circle-fill" viewBox="0 0 16 16">
@@ -84,9 +149,7 @@ export default function Message() {
               </svg>
             </div>
             <p className={styles.time}>시간</p>
-          </div>
-          <p className={styles.content}>최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지최근메세지</p>
-        </div>
+          </div> */}
       </div>
     </>
   );

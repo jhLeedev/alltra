@@ -76,6 +76,7 @@ export default function Chat() {
       if (messageList.length === 0) {
         await setDoc(doc(db, 'chats', chatId), {
           participants: [auth.currentUser?.uid, chatTo.userId],
+          nicknames: [auth.currentUser?.displayName, chatTo.nickname],
         });
       };
       
