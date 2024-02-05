@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Message.module.css';
-import { Timestamp, collection, getDocs, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '..';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useRecoilState } from 'recoil';
+import { chatToState } from '../atoms/userInfoState';
 
 interface Message {
   id: string;
@@ -11,6 +13,7 @@ interface Message {
   createAt: Timestamp;
   nickname: string;
   uid: string;
+  isRead: boolean;
 }
 
 interface Chat {
@@ -23,10 +26,12 @@ interface Chat {
   participants: Array<string>;
   nicknames: Array<string>;
   recentMessage: Message;
+  isRead: boolean;
 }
 
 export default function Message() {
   const [chatList, setChatList] = useState<Chat[]>([]);
+  const [chatTo, setChatTo] = useRecoilState(chatToState);
 
   const navigate = useNavigate();
   const handleReload = () => {
@@ -50,11 +55,13 @@ export default function Message() {
               const recentMessageData = messageSnapshot.docs[0].data() as Message;
               const recentMessage = { ...recentMessageData, id: messageSnapshot.docs[0].id };
     
+              const isRead = recentMessage.isRead ?? false;
+
               const existingChatIndex = allChats.findIndex((chat) => chat.id === doc.id);
               if (existingChatIndex !== -1) {
-                allChats[existingChatIndex] = { ...data, id: doc.id, recentMessage: recentMessage };
+                allChats[existingChatIndex] = { ...data, id: doc.id, recentMessage: recentMessage, isRead: isRead };
               } else {
-                allChats.push({ ...data, id: doc.id, recentMessage: recentMessage });
+                allChats.push({ ...data, id: doc.id, recentMessage: recentMessage, isRead: isRead });
               }
     
               setChatList([...allChats]);
@@ -89,6 +96,16 @@ export default function Message() {
     return user;
   };
 
+  const getUid = (participants: Array<string>) => {
+    let uid = '';
+    if (participants[0] === auth.currentUser?.uid) {
+      uid = participants[1];
+    } else {
+      uid = participants[0];
+    }
+    return uid;
+  };
+
   const getTime = (createAt: Timestamp) => {
     const createdDate = createAt.toDate();
     const today = new Date();
@@ -107,6 +124,16 @@ export default function Message() {
     return time;
   };
 
+  const handleChat = (userId: string, nickname: string): React.MouseEventHandler<HTMLDivElement> => {
+    return (event) => {
+      setChatTo({
+        userId: userId,
+        nickname: nickname
+      });
+      navigate('/chat');
+    }
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -119,29 +146,29 @@ export default function Message() {
         {(true) ? (
           <>
             {chatList.map((doc) => (
-              <div className={styles.messageBox}>
-                <p className={styles.nickName}>{getNickname(doc.nicknames)}</p>
+              <div className={styles.messageBox} onClick={handleChat(getUid(doc.participants), getNickname(doc.nicknames))}>
+                <div className={styles.profileBox}>
+                  <p className={styles.nickName}>{getNickname(doc.nicknames)}</p>
+                  {!doc.isRead && (
+                    <div className={styles.new}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="darkgreen" className="bi bi-circle-fill" viewBox="0 0 16 16">
+                        <circle cx="8" cy="8" r="8"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
                 <div className={styles.message}>
                   <p className={styles.content}>{doc.recentMessage.content}</p>
                   <p className={styles.time}>{getTime(doc.recentMessage.createAt)}</p>
                 </div>
               </div>
-              ))}
-            </>
-          ) : (
-            <div>
-              <p className={styles.noChat}>메세지 목록이 비었습니다.</p>
-            </div>
-          )}
-          {/* <div className={styles.messageInfo}>
-            <p className={styles.nickName}>닉네임</p>
-            <div className={styles.new}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="darkgreen" className="bi bi-circle-fill" viewBox="0 0 16 16">
-                <circle cx="8" cy="8" r="8"/>
-              </svg>
-            </div>
-            <p className={styles.time}>시간</p>
-          </div> */}
+            ))}
+          </>
+        ) : (
+          <div>
+            <p className={styles.noChat}>메세지 목록이 비었습니다.</p>
+          </div>
+        )}
       </div>
     </>
   );

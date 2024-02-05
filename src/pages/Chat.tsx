@@ -3,8 +3,17 @@ import { useRecoilState } from 'recoil';
 import { chatToState } from '../atoms/userInfoState';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { Timestamp, addDoc, collection, doc, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '..';
+
+interface Message {
+  id: string;
+  content: string;
+  createAt: Timestamp;
+  nickname: string;
+  uid: string;
+  isRead: boolean;
+}
 
 interface Chat {
   id: string;
@@ -13,6 +22,10 @@ interface Chat {
   content: string;
   date: Date;
   createAt: Timestamp;
+  participants: Array<string>;
+  nicknames: Array<string>;
+  recentMessage: Message;
+  isRead: boolean;
 }
 
 export default function Chat() {
@@ -36,9 +49,12 @@ export default function Chat() {
       (querySnapshot) => {
       let allMessages: Chat[] = [];
 
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(async (doc) => {
         const data = doc.data() as Chat;
         const createdDate = data.createAt.toDate();
+
+        await updateDoc(doc.ref, { isRead: true });
+
         allMessages.push({...data, id: doc.id, date: createdDate});
       });
 
