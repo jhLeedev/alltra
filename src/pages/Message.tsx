@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './Message.module.css';
 import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '..';
@@ -39,12 +39,13 @@ export default function Message() {
     window.location.reload();
   };
 
-  const getChats = async () => {
+  const getChats = () => {
     const chatsRef = collection(db, 'chats');
     const unsubscribeChats = onSnapshot(
       query(chatsRef, where('participants', 'array-contains', auth.currentUser?.uid)),
       (querySnapshot) => {
         let allChats: Chat[] = [];
+        let sortedChats: Chat[] = [];
 
         querySnapshot.forEach((doc) => {
           const data = doc.data() as Chat;
@@ -55,7 +56,12 @@ export default function Message() {
               const recentMessageData = messageSnapshot.docs[0].data() as Message;
               const recentMessage = { ...recentMessageData, id: messageSnapshot.docs[0].id };
     
-              const isRead = recentMessage.isRead ?? false;
+              let isRead = false; 
+              if (recentMessage.uid === auth.currentUser?.uid) {
+                isRead = true;
+              } else {
+                isRead = recentMessage.isRead ?? false;
+              }
 
               const existingChatIndex = allChats.findIndex((chat) => chat.id === doc.id);
               if (existingChatIndex !== -1) {
@@ -63,16 +69,21 @@ export default function Message() {
               } else {
                 allChats.push({ ...data, id: doc.id, recentMessage: recentMessage, isRead: isRead });
               }
-    
-              setChatList([...allChats]);
-            }
-          );
-        });
-      }
-    );
 
-    return () => {
-      unsubscribeChats();
+              sortedChats = allChats.sort((a, b) => {
+                return Number(b.recentMessage.createAt) - Number(a.recentMessage.createAt);
+              });
+      
+              setChatList([...sortedChats]);
+            }
+            );
+          });
+
+      }
+      );
+      
+      return () => {
+        unsubscribeChats();
     };
   };
 
@@ -143,7 +154,7 @@ export default function Message() {
       </header>
       <p className={styles.title}>메세지 목록</p>
       <div className={styles.container}>
-        {(true) ? (
+        {(chatList.length > 0) ? (
           <>
             {chatList.map((doc) => (
               <div className={styles.messageBox} onClick={handleChat(getUid(doc.participants), getNickname(doc.nicknames))}>

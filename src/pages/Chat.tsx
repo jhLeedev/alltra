@@ -46,18 +46,20 @@ export default function Chat() {
     const messagesRef = collection(db, 'chats', chatId, 'messages');
     const unsubscribe = onSnapshot(
       query(messagesRef, orderBy('createAt', 'asc')),
-      (querySnapshot) => {
+      async (querySnapshot) => {
       let allMessages: Chat[] = [];
 
-      querySnapshot.forEach(async (doc) => {
+      for (const doc of querySnapshot.docs) {
         const data = doc.data() as Chat;
         const createdDate = data.createAt.toDate();
 
-        await updateDoc(doc.ref, { isRead: true });
+        if (data.uid !== auth.currentUser?.uid) {
+          await updateDoc(doc.ref, { isRead: true });
+        }
 
         allMessages.push({...data, id: doc.id, date: createdDate});
-      });
-
+      };
+      
       setMessageList(allMessages);
     });
 
@@ -100,7 +102,8 @@ export default function Chat() {
         uid: auth.currentUser?.uid,
         nickname: auth.currentUser?.displayName,
         content: chat,
-        createAt: Timestamp.now()
+        createAt: Timestamp.now(),
+        isRead: false
       });
       setChat('');
       getMessages();

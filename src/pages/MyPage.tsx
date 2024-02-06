@@ -119,14 +119,14 @@ export default function MyPage() {
       });
       userChatSnapshot.forEach((chat) => {
         const chatRef = doc(db, 'chats', chat.id);
-        let newNicknames = [];
+        let newnicknames = [];
         if (chat.data().nicknames[0] === prevNickname) {
-          newNicknames.push(chat.data().nicknames[1]);
+          newnicknames.push(chat.data().nicknames[1]);
         } else {
-          newNicknames.push(chat.data().nicknames[0]);
+          newnicknames.push(chat.data().nicknames[0]);
         }
-        newNicknames.push(nickName);
-        batch.update(chatRef, { nickNames: newNicknames });
+        newnicknames.push(nickName);
+        batch.update(chatRef, { nicknames: newnicknames });
       });
       await batch.commit();
 
