@@ -83,3 +83,36 @@
 .noResult {
   color: gray;
 }
+
+@media (max-width: 1080px) {
+  .container {
+    padding: 0 calc((100% - 270px*2)/2);
+  }
+}
+
+@media (max-width: 540px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contentBox {
+    width: 340px;
+    height: 230px;
+  }
+
+  .topBox {
+    height: 150px;
+  }
+
+  .content {
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (max-width: 320px) {
+  .contentBox {
+    width: 260px;
+    height: 230px;
+  }
+}

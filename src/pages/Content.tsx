@@ -322,7 +322,6 @@ export default function Content() {
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
                       rows={3}
-                      cols={154}
                       spellCheck='false'
                       className={styles.myComment}
                     ></textarea>
@@ -343,7 +342,6 @@ export default function Content() {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     rows={3}
-                    cols={159}
                     spellCheck='false'
                     className={styles.myComment}
                   ></textarea>
@@ -359,7 +357,6 @@ export default function Content() {
                 name='comment'
                 placeholder='댓글을 작성하려면 로그인 해주세요'
                 rows={3}
-                cols={159}
                 spellCheck='false'
                 className={styles.myComment}
                 disabled

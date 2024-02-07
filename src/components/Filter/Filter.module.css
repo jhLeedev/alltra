@@ -1,8 +1,11 @@
 ul {
   padding: 0;
+  display: flex;
+  overflow-x: scroll;
 }
 
 .container li {
+  flex-shrink: 0;
   display: inline-block;
   margin: 0 10px 10px 0;
   padding: 10px 25px;
@@ -35,4 +38,22 @@ ul {
   background-color: darkred;
   border-color: darkred;
   color: white;
+}
+
+@media (min-width: 768px) {
+  ul::-webkit-scrollbar {
+    height: 16px;
+  }
+  
+  ul::-webkit-scrollbar-thumb {
+    background: rgba(211, 211, 211, 0.5);
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container li {
+    margin: 0 4px 4px 0;
+    padding: 8px 16px;
+  }
 }

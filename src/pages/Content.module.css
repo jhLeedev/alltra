@@ -33,9 +33,11 @@
 }
 
 .titleBox {
-  max-width: 1040px;
-  margin: 0 auto;
-  height: 80px;
+  width: calc(100% - 120px);
+  min-height: 80px;
+  margin: 0 60px;
+  display: flex;
+  align-items: center;
   border-top: 1px solid rgba(211, 211, 211, 0.6);
 }
 
@@ -43,12 +45,12 @@
   margin: 0;
   font-size: 1.4rem;
   font-weight: 600;
-  line-height: 80px;
+  line-height: 2rem;
 }
 
 .profile {
-  max-width: 1040px;
-  margin: 0 auto;
+  width: calc(100% - 120px);
+  margin: 0 60px;
   height: 60px;
   display: flex;
   align-items: center;
@@ -96,8 +98,8 @@
 }
 
 .container {
-  max-width: 1072px;
-  margin: 40px auto 0;
+  width: calc(100% - 120px);
+  margin: 40px 60px 0;
   padding: 0 16px;
 }
 
@@ -172,7 +174,8 @@
 }
 
 .myCommentBox {
-  margin: 16px 0 40px;
+  width: 100%;
+  margin: 16px auto 40px;
   border: 1.5px solid darkgray;
   border-radius: 12px;
   display: flex;
@@ -183,6 +186,7 @@
 .myComment,
 .myComment:focus {
   border: none;
+  width: 100%;
 }
 
 .myCommentBox button {
@@ -196,6 +200,7 @@
 
 .replyCommentBox {
   display: flex;
+  width: 100%;
 }
 
 .replyIcon {
@@ -209,4 +214,21 @@
 
 .myCommentBox .cancel {
   background-color: lightgray;
+}
+
+@media (max-width: 768px) {
+  .titleBox,
+  .profile {
+    margin: 0 20px;
+    width: calc(100% - 40px);
+  }
+
+  .container {
+    margin: 40px 20px 0;
+    width: calc(100% - 40px);
+  }
+
+  .myCommentBox button {
+    width:80px;
+  }
 }
