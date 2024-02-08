@@ -211,24 +211,26 @@ export default function MyPage() {
           </div>
           <div className={styles.nickNameBox}>
             <p className={styles.label}>닉네임</p>
-            <p className={styles.nickName}>{profile.nickName}</p>
-            {(showInput) ? (
-              <>
-                <label htmlFor='nickName' className={styles.srOnly}>닉네임</label>
-                <input
-                  id='nickName' 
-                  type='text' 
-                  placeholder='변경할 닉네임'
-                  value={nickName}
-                  onChange={(e) => setNickName(e.target.value)} 
-                  className={styles.inputBox}
-                  onKeyDown={handleKeyDown}
-                />
-                <button type='button' className={styles.confirmBtn} onClick={handleConfirm}>확인</button>
-              </>
-            ) : (
-              <button type='button' className={styles.changeBtn} onClick={() => setShowInput(true)}>닉네임 변경</button>
-            )}
+            <div className={styles.nicknameContainer}>
+              <p className={styles.nickName}>{profile.nickName}</p>
+              {(showInput) ? (
+                <div className={styles.changeNickname}>
+                  <label htmlFor='nickName' className={styles.srOnly}>닉네임</label>
+                  <input
+                    id='nickName' 
+                    type='text' 
+                    placeholder='변경할 닉네임'
+                    value={nickName}
+                    onChange={(e) => setNickName(e.target.value)} 
+                    className={styles.inputBox}
+                    onKeyDown={handleKeyDown}
+                    />
+                  <button type='button' className={styles.confirmBtn} onClick={handleConfirm}>확인</button>
+                </div>
+              ) : (
+                <button type='button' className={styles.changeBtn} onClick={() => setShowInput(true)}>닉네임 변경</button>
+                )}
+            </div>
           </div>
         </div>
       </div>

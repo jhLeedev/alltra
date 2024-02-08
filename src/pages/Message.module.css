@@ -25,8 +25,8 @@
 }
 
 .container {
-  max-width: 1040px;
-  margin: 0 auto;
+  width: calc(100% - 120px);
+  margin: 0 60px;
   padding-top: 60px;
 }
 
@@ -75,4 +75,21 @@
   padding: 30px 0;
   color: gray;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+  }
+}
+
+@media (max-width: 376px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .container {
+    padding-top: 40px;
+  }
 }

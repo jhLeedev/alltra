@@ -82,8 +82,7 @@ export default function Post() {
             placeholder='내용을 입력하세요'
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            rows={25}
-            cols={100}
+            rows={20}
             spellCheck='false'
             className={styles.content}
           ></textarea>

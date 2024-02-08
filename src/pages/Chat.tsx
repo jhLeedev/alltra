@@ -178,7 +178,6 @@ export default function Chat() {
             value={chat}
             onChange={(e) => setChat(e.target.value)}
             rows={2}
-            cols={148}
             spellCheck='false'
             className={styles.myChat}
           ></textarea>

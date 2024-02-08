@@ -110,7 +110,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 376px) {
   .contentBox {
     width: 260px;
     height: 230px;

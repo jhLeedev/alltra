@@ -10,12 +10,14 @@
 }
 
 .header {
-  background-color: white;
-  border-bottom: 1px solid lightgrey;
+  position: fixed;
+  top: 0;
   width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
   font-size: 1rem;
   color: black;
 }
@@ -30,21 +32,30 @@
 
 .profile,
 .container {
-  max-width: 1040px;
   margin: 0 auto;
+}
+
+.profile {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  height: 72px;
+  background-color: white;
   border-bottom: 1px solid rgba(211, 211, 211, 0.6);
 }
 
 .nickname {
-  margin: 24px 0;
+  margin: 0;
   font-size: 1.4rem;
+  line-height: 72px;
   font-weight: 600;
   text-align: center;
 }
 
 .container {
-  height: 72vh;
-  padding: 40px 20px;
+  max-width: 1040px;
+  height: 100vh;
+  padding: 132px 20px 109px;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -67,7 +78,10 @@
 }
 
 .dateBox {
-  color: gray;
+  margin: 24px 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: darkgray;
   text-align: center;
 }
 
@@ -92,15 +106,27 @@
   color: darkgray;
 }
 
+.scrollRef {
+  height: 24px;
+}
+
 .noMessage p {
   padding: 30px 0;
   color: gray;
   text-align: center;
 }
 
+.inputBox {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid rgba(211, 211, 211, 0.6);
+}
+
 .myChatBox {
   max-width: 1040px;
-  margin: 20px auto 20px;
+  margin: 20px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,6 +137,7 @@
 .myChat,
 .myChat:focus {
   border: none;
+  width: 100%;
 }
 
 .sendBtn {
@@ -120,4 +147,11 @@
   flex-shrink: 0;
   font-size: 0.9rem;
   border-radius: 12px;
+}
+
+@media (max-width: 1080px) {
+  .myChatBox {
+    width: calc(100% - 40px);
+    margin: 20px;
+  }
 }

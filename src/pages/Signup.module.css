@@ -1,11 +1,12 @@
 .container {
   margin: 0 auto;
-  padding: 100px 26px;
+  height: 100vh;
+  padding: 100px 0;
   max-width: 372px;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .logo {
@@ -21,13 +22,47 @@
 }
 
 .signupBox {
-  padding: 20px 10px;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px 0;
 }
 
 label {
-  margin-left: 10px;
+  margin-left: 20px;
   font-size: 0.8rem;
   font-weight: 600;
   color: gray;
+}
+
+@media (max-width: 376px) {
+  .signupBox {
+    padding: 0;
+  }
+
+  .container,
+  .signupBox input,
+  .signupBox button {
+    width: calc(100% - 40px);
+    margin: 4px 20px 12px;
+  }
+  
+  .container {
+    margin: 0 20px;
+    padding: 0;
+  }
+
+  .signupBox button {
+    margin: 20px;
+  }
+
+  .logo {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-height: 600px) {
+  .container {
+    height: 100%;
+  }
 }

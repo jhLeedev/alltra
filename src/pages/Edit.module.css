@@ -38,7 +38,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
 }
 
 .contentTitle {
@@ -75,4 +74,31 @@ textarea:focus {
 .postContainer button {
   margin-top: 30px;
   background-color: darkgreen;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    margin: 32px 20px;
+  }
+
+  .contentTitle,
+  .content {
+    width: calc(100% - 40px);
+    margin: 32px 20px 20px;
+  }
+
+  .content {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 376px) {
+  .categoryTitle {
+    font-size: 1.8rem;
+  }
+
+  .postContainer button {
+    width: calc(100% - 40px);
+    margin: 20px 20px 10px;
+  }
 }

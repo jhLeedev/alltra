@@ -51,6 +51,7 @@ export default function Login() {
               placeholder='이메일' 
               value={email}
               onChange={(e) => setEmail(e.target.value)} 
+              className={styles.inputBox}
             />
           </div>
           <div>
@@ -61,6 +62,7 @@ export default function Login() {
               placeholder='비밀번호' 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className={styles.inputBox}
             />
           </div>
           <button type='submit'>로그인</button>
