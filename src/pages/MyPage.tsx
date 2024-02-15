@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './MyPage.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, db } from '..';
+import { auth, db } from '../firebase-config';
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { Timestamp, collection, doc, getDocs, orderBy, query, where, writeBatch } from 'firebase/firestore';
 import Pagination from '../components/Pagination/Pagination';

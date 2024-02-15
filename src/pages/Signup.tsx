@@ -1,6 +1,6 @@
 import styles from './Signup.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '..';
+import { auth } from '../firebase-config';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
 import { emailState, nicknameState, passwordState } from '../atoms/userInfoState';

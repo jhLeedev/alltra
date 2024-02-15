@@ -4,7 +4,7 @@ import { chatToState } from '../atoms/userInfoState';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Timestamp, addDoc, collection, doc, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '..';
+import { auth, db } from '../firebase-config';
 
 interface Message {
   id: string;

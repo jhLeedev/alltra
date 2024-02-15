@@ -1,6 +1,6 @@
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '..';
+import { auth } from '../firebase-config';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
 import { emailState, passwordState } from '../atoms/userInfoState';

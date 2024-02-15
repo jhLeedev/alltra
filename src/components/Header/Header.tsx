@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { emailState, isLoggedInState, searchTermState } from '../../atoms/userInfoState';
 import { useEffect, useState } from 'react';
-import { auth } from '../..';
+import { auth } from '../../firebase-config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 

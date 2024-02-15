@@ -5,7 +5,7 @@ import { selectedCategoryState, selectedCityState } from "../atoms/userInfoState
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Filter from "../components/Filter/Filter";
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '..';
+import { db } from '../firebase-config';
 
 
 export default function Edit() {

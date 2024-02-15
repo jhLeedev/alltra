@@ -2,7 +2,7 @@ import styles from './Content.module.css';
 import Header from '../components/Header/Header';
 import { useEffect, useRef, useState } from 'react';
 import { getDoc, doc, addDoc, collection, Timestamp, getDocs, query, where, orderBy, deleteDoc } from 'firebase/firestore';
-import { auth, db } from '..';
+import { auth, db } from '../firebase-config';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getTimeDifference } from '../components/List/List';
 import { useRecoilState } from 'recoil';

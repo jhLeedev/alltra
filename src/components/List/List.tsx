@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { db } from '../..';
+import { db } from '../../firebase-config';
 import styles from './List.module.css';
 import { Timestamp, collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { totalPagesState, selectedCityState, selectedCategoryState, currentPageState, searchTermState } from '../../atoms/userInfoState';

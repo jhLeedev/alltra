@@ -8,7 +8,7 @@ import Pagination from '../Pagination/Pagination';
 import List from '../List/List';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../..';
+import { auth, db } from '../../firebase-config';
 import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
 interface Message {

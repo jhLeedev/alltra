@@ -2,7 +2,7 @@ import styles from './DeleteModal.module.css';
 import { useRecoilState } from "recoil";
 import { isModalOpenState } from "../../atoms/userInfoState";
 import { collection, deleteDoc, doc, getDocs, query, runTransaction, updateDoc, where } from 'firebase/firestore';
-import { db } from '../..';
+import { db } from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 
 interface DeleteModalProps {

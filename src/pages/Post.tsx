@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Post.module.css';
 import { useState } from 'react';
-import { db, auth } from '..';
+import { db, auth } from '../firebase-config';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import Filter from '../components/Filter/Filter';
 import { useRecoilState } from "recoil";

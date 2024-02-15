@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './Message.module.css';
 import { Timestamp, collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { auth, db } from '..';
+import { auth, db } from '../firebase-config';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
