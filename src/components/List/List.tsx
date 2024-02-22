@@ -64,7 +64,7 @@ export default function List(props: ListProps) {
       };
       setList(newContents);
 
-      const totalItems = Math.max((await getDocs(q)).size, 1);
+      const totalItems = Math.max(allContents.length, 1);
       const newTotalPages = Math.ceil(totalItems / itemsPerPage);
       setTotalPages(newTotalPages);
     } catch (error: any) {
