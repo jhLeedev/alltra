@@ -40,7 +40,7 @@
   align-items: center;
 }
 
-.contentTitle {
+.postContainer input {
   width: 700px;
   margin: 40px 0 30px;
   border: 1.5px solid rgb(145, 205, 61);
@@ -81,7 +81,7 @@ textarea:focus {
     margin: 32px 20px;
   }
 
-  .contentTitle,
+  .postContainer input,
   .content {
     width: calc(100% - 40px);
     margin: 32px 20px 20px;
