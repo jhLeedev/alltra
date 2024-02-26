@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
 
+console.log(process.env.REACT_APP_APIKEY);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
   );

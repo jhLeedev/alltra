@@ -51,9 +51,10 @@ ul {
   }
 }
 
-@media (max-width: 376px) {
+@media (max-width: 480px) {
   .container li {
     margin: 0 4px 4px 0;
     padding: 8px 16px;
+    font-size: 0.9rem;
   }
 }

@@ -59,3 +59,9 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+@media (max-width: 480px) {
+  .filter {
+    padding: 15px 20px 5px;
+  }
+}
